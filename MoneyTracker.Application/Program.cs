@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MoneyTracker.Application.Extensions;
 using MoneyTracker.Application.Filters;
+using MoneyTracker.Storage;
 
 const string CorsPolicyName = "CorsPolicy";
 
@@ -70,6 +72,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    // Run Database Migrations
+    using var scope = app.Services.CreateScope();
+    using var context = scope.ServiceProvider.GetService<MoneyTrackerContext>();
+    context?.Database.Migrate();
 }
 
 app.UseCors(CorsPolicyName);
