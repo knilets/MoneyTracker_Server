@@ -1,0 +1,22 @@
+﻿{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    // Use for localhost database instance
+    "DbConnection": "Server=localhost;Database=MoneyTracker;Trusted_Connection=True;Connect Timeout=15;Encrypt=False;Packet Size=4096"
+  },
+  // JWT Token Configuration
+  "JwtConfiguration": {
+    "ValidIssuer": "https://localhost:7003/",
+    "ValidAudience": "https://localhost:7003/",
+    "Secret": "yourSuperStrongSecret",
+    "ExpiresIn": 60
+  },
+  // CORS Configuration
+  "JsCors": "http://localhost:7003"
+}

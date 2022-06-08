@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Scripts\InitializationData\Insert-Into-Categories.sql" />
+    <None Remove="Scripts\InitializationData\Insert-Into-Users.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\InitializationData\Insert-Into-Currencies.sql" />
+    <EmbeddedResource Include="Scripts\InitializationData\Insert-Into-Categories.sql" />
+    <EmbeddedResource Include="Scripts\InitializationData\Insert-Into-Users.sql" />
+    <EmbeddedResource Include="Scripts\InitializationData\Insert-Into-Signs.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MoneyTracker.Authentication\MoneyTracker.Authentication.csproj" />
+    <ProjectReference Include="..\MoneyTracker.Storage.Models\MoneyTracker.Storage.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
+</Project>
