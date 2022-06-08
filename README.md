@@ -29,6 +29,8 @@ MonkeyTracker is an API-Service that helps to manage expencies.
 Configure your own `MoneyTracker.Application/appsettings.json`. There is `example.appsettings.json`. Copy it, rename and put correct configuration.
 
 # Migrations
+Migrations are applied automatically from `Program.cs` when the `env = Development`.
+
 ## Using Visual Studio
 For Migration Process EF-Core Migrations is in use.
 Open PacketManagement Console and Select `MoneyTrackeer.Storage` as a Default Project.
@@ -75,7 +77,7 @@ How to build locally:
 
 How to build and run using `docker-compose`.
 1. Have docker and docker-compose installed.
-2. Make sure that in `MoneyTracker.Application/appsettings.json` you have enabled the correct `DbConnection` property, the one marked with docker compose.
+2. Make sure that in `docker-compose` you have enabled the correct `DbConnection` property, the one marked with docker compose.
 3. `$ docker-compose build` to build in active terminal session. NOTE: Every time when something in appsettings has changed, run this command.
 4. `$ docker-compose up` to run in active terminal session or `$ docker-compose up -d` to run in background.
 5. Open in browser `http://localhost:7003/swagger/index.html`
