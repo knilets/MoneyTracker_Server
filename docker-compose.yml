@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+    web:
+        build:
+            context: ./
+        ports:
+            - "7003:7003"
+        environment:
+            - ASPNETCORE_URLS=http://+:7003
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ConnectionStrings__DbConnection=Server=db;Database=MoneyTrackerDb;User Id=sa;Password=MoneyTracker1*;Persist Security Info=True;
+            - JwtConfiguration__ValidIssuer=https://localhost:7003/
+            - JwtConfiguration__ValidAudience=https://localhost:7003/
+            - JwtConfiguration__Secret=yourSuperStrongSecret
+            - JwtConfiguration__ExpiresIn=60            
+        depends_on:
+            - db
+    db:
+        image: "mcr.microsoft.com/mssql/server"
+        environment:
+            SA_PASSWORD: "MoneyTracker1*"
+            ACCEPT_EULA: "Y"
