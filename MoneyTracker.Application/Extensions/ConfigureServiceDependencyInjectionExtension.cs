@@ -1,4 +1,5 @@
 ﻿using MoneyTracker.Authentication.Services;
+using MoneyTracker.Logic;
 using MoneyTracker.Logic.Categories;
 using MoneyTracker.Logic.Currencies;
 using MoneyTracker.Logic.Service.Categories;
@@ -19,11 +20,15 @@ public static class ConfigureServiceDependencyInjectionExtension
     /// </summary>
     public static void ConfigureServiceDependencyInjection(this IServiceCollection services)
     {
+        // Services
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICurrencyService, CurrencyService>();
         services.AddScoped<ITransactionService, TransactionService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IWalletService, WalletService>();
+
+        // RequestValidators
+        services.AddScoped<IRequestValidator<WalletCreateUpdateRequest>, WalletRequestValidator>();
     }
 }

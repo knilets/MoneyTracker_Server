@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MoneyTracker.Logic.Wallets;
 using MoneyTracker.Storage;
 using MoneyTracker.Storage.Models.Entities;
+using MoneyTracker.Storage.Models.Enums;
 using System.Security.Authentication;
 
 namespace MoneyTracker.Logic.Service.Wallets;
@@ -10,16 +11,23 @@ namespace MoneyTracker.Logic.Service.Wallets;
 public class WalletService : IWalletService
 {
     private readonly MoneyTrackerContext _context;
+
+    private readonly IRequestValidator<WalletCreateUpdateRequest> _validator;
     private readonly IMapper _mapper;
 
-    public WalletService(MoneyTrackerContext context, IMapper mapper)
+    public WalletService(MoneyTrackerContext context,
+        IRequestValidator<WalletCreateUpdateRequest> validator,
+        IMapper mapper)
     {
         _context = context;
+        _validator = validator;
         _mapper = mapper;
     }
 
     public async Task<WalletDto> CreateAsync(WalletCreateUpdateRequest request, int userId)
     {
+        await _validator.ValidateAsync(request);
+
         var wallet = _mapper.Map<Wallet>(request);
         wallet.CreatedBy = userId;
         wallet.CreatedAt = DateTime.UtcNow;
@@ -28,7 +36,11 @@ public class WalletService : IWalletService
         await _context.SaveChangesAsync();
 
         wallet = await GetAllowedAsync(wallet.Id, userId);
-        return _mapper.Map<WalletDto>(wallet);
+        
+        var walletDto = _mapper.Map<WalletDto>(wallet);
+        walletDto.AvailableFunds = await CalculateAvailableFundsAsync(walletDto.Id);
+
+        return walletDto;
     }
 
     public async Task<WalletDto> GetAllowedForUserAsync(int id, int userId)
@@ -45,11 +57,19 @@ public class WalletService : IWalletService
             .Where(w => w.CreatedBy == userId)
             .ToListAsync();
 
-        return _mapper.Map<IList<WalletDto>>(wallets);
+        var walletDtos = _mapper.Map<IList<WalletDto>>(wallets);
+        foreach (var walletDto in walletDtos)
+        {
+            walletDto.AvailableFunds = await CalculateAvailableFundsAsync(walletDto.Id);
+        }
+
+        return walletDtos;
     }
 
     public async Task<WalletDto> UpdateAsync(WalletCreateUpdateRequest request, int userId)
     {
+        await _validator.ValidateAsync(request);
+
         var wallet = await GetAllowedAsync(request.Id, userId);
 
         wallet.Name = request.Name;
@@ -60,7 +80,11 @@ public class WalletService : IWalletService
         await _context.SaveChangesAsync();
 
         wallet = await GetAllowedAsync(wallet.Id, userId);
-        return _mapper.Map<WalletDto>(wallet);
+
+        var walletDto = _mapper.Map<WalletDto>(wallet);
+        walletDto.AvailableFunds = await CalculateAvailableFundsAsync(walletDto.Id);
+
+        return walletDto;
     }
 
     public async Task DeleteAsync(int id, int userId)
@@ -70,7 +94,7 @@ public class WalletService : IWalletService
         _context.Wallets.Remove(wallet);
         await _context.SaveChangesAsync();
     }
-    
+
     private async Task<Wallet> GetAllowedAsync(int id, int userId)
     {
         var wallet = await GetOrNotFoundAsync(id);
@@ -86,4 +110,9 @@ public class WalletService : IWalletService
             .Include(w => w.Currency)
             .FirstOrDefaultAsync(w => w.Id == id)
         ?? throw new KeyNotFoundException($"Wallet with Identifier '{id}' not found.");
+
+    private Task<double> CalculateAvailableFundsAsync(int walletId) =>
+        _context.Transactions
+            .Where(t => t.WalletId == walletId)
+            .SumAsync(t => t.SignId == SignType.Plus ? t.Sum : (-1) * t.Sum);
 }

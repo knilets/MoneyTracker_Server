@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Currencies\" />
     <Folder Include="Categories\" />
-    <Folder Include="Wallets\" />
     <Folder Include="Users\" />
   </ItemGroup>
 

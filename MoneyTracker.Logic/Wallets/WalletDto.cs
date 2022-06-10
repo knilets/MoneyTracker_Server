@@ -11,4 +11,5 @@ public class WalletDto
     public string CurrencySymbol { get; set; }
 
     public bool IsActive { get; set; }
+    public double AvailableFunds { get; set; }
 }

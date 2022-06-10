@@ -22,4 +22,12 @@ public class CurrencyService : ICurrencyService
 
         return _mapper.Map<IList<CurrencyDto>>(currencies);
     }
+
+    public async Task<CurrencyDto> GetAsync(int id)
+    {
+        var currency = await _context.Currencies.FindAsync(id)
+                       ?? throw new KeyNotFoundException($"Currency with Id '{id}' not found.");
+
+        return _mapper.Map<CurrencyDto>(currency);
+    }
 }
