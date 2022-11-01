@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MoneyTracker.Application.Extensions;
 using MoneyTracker.Application.Filters;
-using MoneyTracker.Storage;
 
-const string CorsPolicyName = "CorsPolicy";
+//const string CorsPolicyName = "CorsPolicy";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,20 +35,20 @@ builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJwt(jwtConfigurationSection);
 
 // Cors Policy
-builder.Services.AddCors(options =>
-{
-    var origins = builder.Configuration.GetValue<string>("JsCors")?
-                      .Split(',')
-                      .Where(origin => origin.StartsWith("http"))
-                      .ToArray()
-                  ?? (Array.Empty<string>());
+//builder.Services.AddCors(options =>
+//{
+//    var origins = builder.Configuration.GetValue<string>("JsCors")?
+//                      .Split(',')
+//                      .Where(origin => origin.StartsWith("http"))
+//                      .ToArray()
+//                  ?? (Array.Empty<string>());
 
-    options.AddPolicy(CorsPolicyName,
-        configurePolicy => configurePolicy.WithOrigins(origins)
-            .AllowCredentials()
-            .AllowAnyHeader()
-            .AllowAnyMethod());
-});
+//    options.AddPolicy(CorsPolicyName,
+//        configurePolicy => configurePolicy.WithOrigins(origins)
+//            .AllowCredentials()
+//            .AllowAnyHeader()
+//            .AllowAnyMethod());
+//});
 
 // Add Services Dependency Injections
 builder.Services.ConfigureServiceDependencyInjection();
@@ -68,18 +66,10 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 
-    // Run Database Migrations
-    using var scope = app.Services.CreateScope();
-    using var context = scope.ServiceProvider.GetService<MoneyTrackerContext>();
-    context?.Database.Migrate();
-}
-
-app.UseCors(CorsPolicyName);
+//app.UseCors(CorsPolicyName);
 
 app.UseHttpsRedirection();
 app.UseResponseCaching();

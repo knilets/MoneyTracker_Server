@@ -8,14 +8,15 @@ public static class ConfigureIdentityExtension
 {
     public static void ConfigureIdentity(this IServiceCollection services)
     {
-        var builder = services.AddIdentity<ApplicationUser, IdentityRole>(o =>
-            {
-                o.Password.RequireDigit = false;
-                o.Password.RequireLowercase = false;
-                o.Password.RequireUppercase = false;
-                o.Password.RequireNonAlphanumeric = false;
-                o.User.RequireUniqueEmail = true;
-            })
+        services.AddIdentity<ApplicationUser, IdentityRole>(
+                options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.User.RequireUniqueEmail = true;
+                })
             .AddEntityFrameworkStores<MoneyTrackerContext>()
             .AddDefaultTokenProviders();
     }
