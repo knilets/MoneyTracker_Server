@@ -84,4 +84,12 @@ public class TransactionsController : UserRelatedBaseController
 
         return Ok(transactions);
     }
+
+    [HttpDelete]
+    [Route("transactions/{id:int}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await _service.DeleteAsync(id, await GetCurrentUserId());
+        return Ok();
+    }
 }

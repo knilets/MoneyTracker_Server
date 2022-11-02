@@ -116,6 +116,14 @@ public class TransactionService : ITransactionService
                ?? throw new KeyNotFoundException($"Transaction with Id '{id}' not found.");
     }
 
+    public async Task DeleteAsync(int id, int userId)
+    {
+        var transaction = await GetForUserAsync(id, userId);
+
+        _context.Transactions.Remove(transaction);
+        await _context.SaveChangesAsync();
+    }
+
     private async Task<TransactionDto> CreateAsync(TransactionCreateUpdateRequest request, int userId)
     {
         var transaction = _mapper.Map<Transaction>(request);
