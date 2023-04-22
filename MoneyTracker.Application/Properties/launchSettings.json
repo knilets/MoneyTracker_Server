@@ -1,4 +1,4 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -13,12 +13,12 @@
   "profiles": {
     "MoneyTracker.Application": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchUrl": "https://localhost:7003/swagger",
       "applicationUrl": "https://localhost:7003",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "dotnetRunMessages": true
     },
     "IIS Express": {
       "commandName": "IISExpress",
