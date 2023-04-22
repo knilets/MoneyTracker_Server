@@ -19,8 +19,7 @@ builder.Services.AddResponseCaching();
 builder.Services.AddHttpContextAccessor();
 
 // Add Database Connections
-var connectionString = builder.Configuration.GetConnectionString("DbConnection");
-builder.Services.ConfigureSqlContext(connectionString);
+builder.Services.ConfigureSqlContext(builder.Configuration);
 
 // Auto Mapper Configurations
 builder.Services.ConfigureMapper();

@@ -9,6 +9,8 @@
   <ItemGroup>
     <None Remove="Scripts\InitializationData\Insert-Into-Categories.sql" />
     <None Remove="Scripts\InitializationData\Insert-Into-Users.sql" />
+    <None Remove="Enums\" />
+    <None Remove="PostgreSqlMigrations\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +28,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +38,8 @@
 
   <ItemGroup>
     <Folder Include="Helpers\" />
+    <Folder Include="Enums\" />
+    <Folder Include="PostgreSqlMigrations\" />
   </ItemGroup>
 
 </Project>

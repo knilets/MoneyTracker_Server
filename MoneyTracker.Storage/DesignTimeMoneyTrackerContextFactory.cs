@@ -24,3 +24,14 @@ public class DesignTimeMoneyTrackerContextFactory : IDesignTimeDbContextFactory<
         return new MoneyTrackerContext(optionsBuilder.Options);
     }
 }
+
+public class DesignPostgreSqlContextFactory : IDesignTimeDbContextFactory<MoneyTrackerPostgreSqlContext>
+{
+    public MoneyTrackerPostgreSqlContext CreateDbContext(string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<MoneyTrackerPostgreSqlContext>();
+        optionsBuilder.UseNpgsql();
+
+        return new MoneyTrackerPostgreSqlContext(optionsBuilder.Options);
+    }
+}
