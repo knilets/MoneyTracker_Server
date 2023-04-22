@@ -1,4 +1,8 @@
 ﻿# How to create migration
+0. Install dotnet ef tools
+```
+dotnet tool install --global dotnet-ef
+```
 1. Open terminal with the current Storage project
 2. Run script
 ```
