@@ -6,6 +6,7 @@
     }
   },
   "AllowedHosts": "*",
+  "IsPostgreInUse": true,
   "ConnectionStrings": {
     // Use for localhost database instance
     "MsSqlConnection": "Server=localhost;Database=MoneyTracker;Trusted_Connection=True;Connect Timeout=15;Encrypt=False;Packet Size=4096",
