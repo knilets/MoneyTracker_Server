@@ -1,9 +1,4 @@
-ARG BUILD_IMAGE=mcr.microsoft.com/dotnet/sdk:7.0
-ARG RUNTIME_BASE_IMAGE=mcr.microsoft.com/dotnet/aspnet:7.0-alpine
-
-FROM $RUNTIME_BASE_IMAGE AS base
-# Install cultures (same approach as Alpine SDK image)
-RUN apk add --no-cache icu-libs
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 
 # Disable the invariant mode (set in base image)
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
@@ -13,7 +8,7 @@ EXPOSE 80
 EXPOSE 443
 EXPOSE 7113
 
-FROM $BUILD_IMAGE AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
 WORKDIR /src
 COPY MoneyTracker.sln ./
