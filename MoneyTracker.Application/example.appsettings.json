@@ -6,9 +6,11 @@
     }
   },
   "AllowedHosts": "*",
+  "IsPostgreInUse": true,
   "ConnectionStrings": {
     // Use for localhost database instance
-    "DbConnection": "Server=localhost;Database=MoneyTracker;Trusted_Connection=True;Connect Timeout=15;Encrypt=False;Packet Size=4096"
+    "MsSqlConnection": "Server=localhost;Database=MoneyTracker;Trusted_Connection=True;Connect Timeout=15;Encrypt=False;Packet Size=4096",
+    "PostgreSqlConnection": "<YourConnectionString>"
   },
   // JWT Token Configuration
   "JwtConfiguration": {

@@ -8,7 +8,7 @@ namespace MoneyTracker.Storage;
 
 public class MoneyTrackerContext : IdentityDbContext<ApplicationUser>
 {
-    public MoneyTrackerContext(DbContextOptions<MoneyTrackerContext> options) : base(options)
+    public MoneyTrackerContext(DbContextOptions options) : base(options)
     {
     }
 
@@ -51,5 +51,12 @@ public class MoneyTrackerContext : IdentityDbContext<ApplicationUser>
         builder.Entity<Currency>()
             .HasIndex(u => u.Code)
             .IsUnique();
+    }
+}
+
+public class MoneyTrackerPostgreSqlContext : MoneyTrackerContext
+{
+    public MoneyTrackerPostgreSqlContext(DbContextOptions options) : base(options)
+    {
     }
 }
