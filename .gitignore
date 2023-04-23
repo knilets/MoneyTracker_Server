@@ -364,3 +364,5 @@ FodyWeavers.xsd
 /MoneyTracker.Application/appsettings.json
 /MoneyTracker.Storage/migrations.sql
 /MoneyTracker.Application/appsettings.Development.json
+docker-compose.yml
+MoneyTracker.Application/appsettings.Docker.json
